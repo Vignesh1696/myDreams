@@ -6,7 +6,7 @@ import auth from '../../../auth/auth-service'
 
 var router = express.Router();
 
-router.post('/create', auth.isSuperAdmin(), controller.create);
+router.post('/create', controller.create);
 router.get('/me', auth.isSuperAdmin(), controller.me);
 router.post('/login', controller.login);
 router.post('/refresh-token', controller.refreshToken);

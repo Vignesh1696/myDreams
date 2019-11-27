@@ -2,6 +2,7 @@
 
 import path from 'path';
 import _ from 'lodash';
+var baseUrl = process.env.DOMAIN;
 
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
@@ -20,7 +21,7 @@ var all = {
 
     // dev client port
     clientPort: process.env.CLIENT_PORT || 3000,
-
+    baseUrl: process.env.DOMAIN,
     // Server port
     port: process.env.PORT || 9000,
 
@@ -33,6 +34,13 @@ var all = {
     // Secret for session, you will want to change this and make it an environment variable
     secrets: {
         session: 'yoman-secret'
+    },
+    auth: {
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        url: baseUrl + "/auth/token",
+        verifyUrl: baseUrl + "/auth/token/verify",
+        saUrl: baseUrl + "/auth/sa-token"
     },
 
     // MongoDB connection options
