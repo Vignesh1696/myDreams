@@ -3,6 +3,7 @@ var sendRsp = require('../../utils/response').sendRsp;
 
 
 exports.create = function(req, res) {
+	console.log("dddddddddd",req.body)
 	req.body.secret = require('crypto').randomBytes(32).toString('base64');
 	AppClient.create(req.body)
 		.then(data => {
