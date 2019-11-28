@@ -18,13 +18,6 @@ var SuperAdminSchema = new Schema({
 		unique: true,
 		required: true
 	},
-	first_name: {
-		type: String,
-		required: true
-	},
-	last_name: {
-		type: String
-	},
 	role: {
 		type: Number,
 		default: 4

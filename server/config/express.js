@@ -2,24 +2,25 @@
  * Express configuration
  */
 
-import express from 'express';
-import expressStaticGzip from 'express-static-gzip';
-import favicon from 'serve-favicon';
-import morgan from 'morgan';
-import compression from 'compression';
-import bodyParser from 'body-parser';
-import methodOverride from 'method-override';
-import cookieParser from 'cookie-parser';
-import errorHandler from 'errorhandler';
-import path from 'path';
-import lusca from 'lusca';
-import config from './environment';
-import session from 'express-session';
-import connectMongo from 'connect-mongo';
-import mongoose from 'mongoose';
-var MongoStore = connectMongo(session);
+ import express from 'express';
+ import expressStaticGzip from 'express-static-gzip';
+ import favicon from 'serve-favicon';
+ import morgan from 'morgan';
+ import compression from 'compression';
+ import bodyParser from 'body-parser';
+ import methodOverride from 'method-override';
+ import cookieParser from 'cookie-parser';
+ import errorHandler from 'errorhandler';
+ import expressValidator from 'express-validator';
+ import path from 'path';
+ import lusca from 'lusca';
+ import config from './environment';
+ import session from 'express-session';
+ import connectMongo from 'connect-mongo';
+ import mongoose from 'mongoose';
+ var MongoStore = connectMongo(session);
 
-export default function(app) {
+ export default function(app) {
     var env = process.env.NODE_ENV;
 
     if(env === 'development' || env === 'test') {
@@ -42,6 +43,7 @@ export default function(app) {
     app.engine('html', require('ejs').renderFile);
     app.set('view engine', 'html');
     app.use(compression());
+    app.use(expressValidator());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     app.use(methodOverride());
@@ -65,7 +67,7 @@ export default function(app) {
      * Lusca - express server security
      * https://github.com/krakenjs/lusca
      */
-    if(env !== 'test' && env !== 'development') {
+     if(env !== 'test' && env !== 'development') {
         app.use(lusca({
             csrf: {
                 header: 'x-xsrf-token',

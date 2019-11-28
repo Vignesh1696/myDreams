@@ -1,5 +1,5 @@
 import passport from 'passport';
-import Appclient from '../api/models/appclient.model';
+import Appclient from '../api/appClient/appClientModel';
 var BasicStrategy = require('passport-http').BasicStrategy;
 var ClientPasswordStrategy = require('passport-oauth2-client-password').Strategy;
 

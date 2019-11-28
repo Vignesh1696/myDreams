@@ -3,6 +3,7 @@ import crypto from 'crypto';
 var algorithm = 'aes-256-cbc';
 
 exports.encrypt = function(text) {
+	console.log("wwwwww",text)
 	var cipher = crypto.createCipher(algorithm, config.secrets.refTokenKey);
 	var crypted = cipher.update(text, 'utf8', 'base64');
 	crypted += cipher.final('base64');

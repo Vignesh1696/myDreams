@@ -2,22 +2,27 @@ import passport from 'passport';
 import _ from 'lodash';
 import expressJwt from 'express-jwt';
 import request from 'request';
-import crypto from '../../../auth/encrypt-decrypt';
-import SuperAdminmodel from './superAdminModel';
-import config from '../../../config/environment';
-var sendRsp = require('../../../utils/response').sendRsp;
-var log = require('../../../libs/log')(module);
-var status = require('../../../config/http_status');
-var msg = require('../../../config/message');
+import crypto from '../../auth/encrypt-decrypt';
+import User from './userModel';
+import config from '../../config/environment';
+var sendRsp = require('../../utils/response').sendRsp;
+var log = require('../../libs/log')(module);
+var status = require('../../config/http_status');
+var msg = require('../../config/message');
 
 exports.create = function(req, res) {
-	var superAdmin = {};
-	superAdmin.username = req.body.username;
-	superAdmin.email = req.body.email;
+	var user = {};
+	user.username = req.body.username;
+	user.email = req.body.email;
+	user.dob = req.body.dob;
+	user.address = req.body.address;
+	user.category = req.body.category;
+	user.mobile = req.body.mobile;
+	user.role = req.body.role;
 	// superAdmin.first_name = req.body.first_name;
 	// superAdmin.last_name = req.body.last_name;
-	superAdmin.password = req.body.password;
-	SuperAdminmodel.create(superAdmin)
+	user.password = req.body.password;
+	User.create(user)
 		.then(data => {
 			sendRsp(res,200,'created',data);
 		}).catch(err => {
@@ -33,7 +38,7 @@ exports.update = function(req, res) {
 	UpdateSuperAdmin.first_name = req.body.first_name;
 	UpdateSuperAdmin.last_name = req.body.last_name;
 	UpdateSuperAdmin.password = req.body.password;
-	SuperAdminmodel.findByIdAndUpdate({
+	User.findByIdAndUpdate({
 			_id
 		}, UpdateSuperAdmin)
 		.then(updateAdmin => {
@@ -45,7 +50,7 @@ exports.update = function(req, res) {
 exports.me = function(req, res) {
 	var user = {};
 	 user = req.user.id;
-	SuperAdminmodel.find({
+	User.find({
 		_id: user
 	},'-salt -hashed_password -tokens').then(user => {
 		sendRsp(res, 200, 'ok', user);
@@ -57,7 +62,7 @@ exports.me = function(req, res) {
 
 exports.delete = function(req, res) {
 	var id = req.params.id;
-	SuperAdminmodel.findOneAndDelete({
+	User.findOneAndDelete({
 			_id: id
 		})
 		.then(AdminDeleted => {
@@ -83,7 +88,7 @@ exports.login = function(req, res) {
 		params.grant_type = "password";
 		var authCode = new Buffer(clientId + ":" + clientSecret).toString('base64');	
 		request.post({
-			url: config.auth.saUrl,
+			url: config.auth.url,
 			form: params,
 			headers: {
 				"Authorization": "Basic " + authCode
@@ -124,7 +129,7 @@ exports.login = function(req, res) {
 exports.refreshToken = function(req, res, next) {
 	console.log('commmmmmm',req.body.refresh_token)
 		var decryptedRefToken = crypto.decrypt(req.body.refresh_token);
-	SuperAdminmodel.find({
+	User.find({
 		"email": req.body.username
 	}, function(err, user) {
 		if (err) {
@@ -182,7 +187,7 @@ exports.logout = function(req, res, next) {
 	if (req.body.refresh_token) {
 		var refToken = crypto.decrypt(req.body.refresh_token);
 		res.clearCookie('admin_refresh_token');
-		SuperAdminmodel.update({
+		User.update({
 			'username': req.body.username
 		}, {
 			$pull: {
@@ -207,15 +212,3 @@ exports.logout = function(req, res, next) {
 	}
 };
 
-exports.me = function(req, res) {
-	var user = {};
-	 user = req.user.id;
-	SuperAdminmodel.find({
-		_id: user
-	},'-salt -hashed_password -tokens').then(user => {
-		sendRsp(res, 200, 'ok', user);
-
-	}).catch(err => {
-		sendRsp(res, 409, "noUserFound", err);
-	});
-}

@@ -3,8 +3,7 @@
  */
 import oauth2orize from 'oauth2orize';
 import passport from 'passport';
-import User from '../api/models/user.model';
-import SuperAdminModel from '../api/models/super_admin.model';
+import User from '../api/users/userModel';
 import crypto from 'crypto';
 import config from '../config/environment';
 import jwt from 'jsonwebtoken';

@@ -26,7 +26,7 @@ var server = oauth2orize.createServer();
  */
 server.exchange(oauth2orize.exchange.password(function(client, email, password,
 	scope, done) {
-	console.log("hello");
+	console.log("hello",email, password);
 	User.findOne({
 		email: email
 	}, function(err, user) {

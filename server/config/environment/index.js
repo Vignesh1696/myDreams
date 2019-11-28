@@ -42,7 +42,17 @@ var all = {
         verifyUrl: baseUrl + "/auth/token/verify",
         saUrl: baseUrl + "/auth/sa-token"
     },
+    secrets: {
+        session: 'staffing-api-secret',
+        globalAccessToken: process.env.GLOBAL_ACCESS_TOKEN_SECRET || "global-access-token-secret",
+        accessToken: process.env.ACCESS_TOKEN_SECRET || "accessToken",
+        refreshToken: process.env.REFRESH_TOKEN_SECRET || "refreshToken",
+        refTokenKey: process.env.REFRESH_TOKEN_KEY_SECRET || "refreshTokenKey"
+    },
 
+    token: {
+        expiresInMinutes: process.env.TOKEN_EXPIRES_IN_MIN || 2
+    },
     // MongoDB connection options
     mongo: {
         options: {
