@@ -3,7 +3,6 @@
 import path from 'path';
 import _ from 'lodash';
 var baseUrl = process.env.DOMAIN;
-
 /*function requiredProcessEnv(name) {
   if(!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable');

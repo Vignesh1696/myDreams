@@ -23,7 +23,7 @@ mongoose.connection.on('error', function(err) {
 // Setup server
 var app = express();
 var server = http.createServer(app);
-const wsInitPromise = initWebSocketServer(server);
+// const wsInitPromise = initWebSocketServer(server);
 expressConfig(app);
 registerRoutes(app);
 
@@ -33,18 +33,6 @@ function startServer() {
         console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
     });
 }
+setImmediate(startServer);
 
-wsInitPromise
-    .then(primus => {
-        app.primus = primus;
-    })
-    .then(() => mongooseConnectionPromise)
-    .then(seedDatabaseIfNeeded)
-    .then(startServer)
-    .catch(err => {
-        console.log('Server failed to start due to error: %s', err);
-    });
-
-
-// Expose app
 exports = module.exports = app;

@@ -48,10 +48,10 @@ exports.update = function(req, res) {
 		});
 };
 exports.me = function(req, res) {
-	var user = {};
-	 user = req.user.id;
+	// var user = {};
+	//  user = req.user.id;
 	User.find({
-		_id: user
+		_id: req.user.id
 	},'-salt -hashed_password -tokens').then(user => {
 		sendRsp(res, 200, 'ok', user);
 

@@ -9,7 +9,6 @@
     // Insert routes below
     app.post('/auth/sa-token', require('./api/sa-auth/authToken'));
     app.post('/auth/token', require('./auth'));
-    app.use('/api/things', require('./api/thing'));
     app.use('/api/app-client', require('./api/appClient'));
     app.use('/api/superadmin', require('./api/sa-auth/auth'));
     app.use('/api/users', require('./api/users'));
