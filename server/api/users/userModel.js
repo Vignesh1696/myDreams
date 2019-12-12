@@ -144,4 +144,4 @@ var validatePresenceOf = function(value) {
 	 }
 	};
 
-	export default mongoose.model('UserSchema', UserSchema);
+	export default mongoose.model('User', UserSchema);
